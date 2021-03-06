@@ -1,0 +1,6 @@
+# bili大会员（圈x专用）@人猪大宝宝
+[rewrite_local]
+https://api.bilibili.com/pgc/view/app/season url 302 https://bilibili.mlyx.workers.dev/
+https://api.bilibili.com/pgc/player/api/playurl url 302 https://bilibili.mlyx.workers.dev/
+
+hostname = api.bilibili.com

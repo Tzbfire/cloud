@@ -1,4 +1,10 @@
 # NAME: 交易所规则修正
 
-HOST-KEYWORD, binance, 比特币
-HOST-KEYWORD, htx, 比特币
+HOST-KEYWORD, binance
+HOST-KEYWORD, htx.
+DOMAIN-SUFFIX,huobi.co
+DOMAIN-SUFFIX,huobi.com
+DOMAIN-SUFFIX,huobi.me
+DOMAIN-SUFFIX,huobi.pro
+DOMAIN-SUFFIX,huobi.sc
+DOMAIN-SUFFIX,huobipro.com

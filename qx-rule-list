@@ -1,4 +1,4 @@
 # NAME: 交易所规则修正
 
-host-keyword, binance, 比特币
-host-keyword, htx, 比特币
+HOST-KEYWORD, binance, 比特币
+HOST-KEYWORD, htx, 比特币

@@ -10,7 +10,7 @@
 ##- DST-PORT,80,DIRECT #匹配数据目标端口(直连)
 ##- SRC-PORT,7777,DIRECT #匹配数据源端口(直连)
 
-DOMAIN,gurl.v1.mk
+DOMAIN-KEYWORD,v1.mk
 DOMAIN-KEYWORD,eeeeeu.eu
 DOMAIN-KEYWORD,mypikpak
 DOMAIN-KEYWORD,eeeeeeeu.eu

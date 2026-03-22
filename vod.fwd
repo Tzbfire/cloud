@@ -353,15 +353,6 @@
       "version": "1.2.1",
       "author": "yuwang",
       "url": "https://anonymous.4open.science/api/repo/TV-34DE/file/vod/鲨鱼资源.js"
-    },
-    {
-      "id": "huangseziyuanaa",
-      "title": "黄色资源啊啊",
-      "description": "获取聚合VOD影片资源",
-      "requiredVersion": "0.0.1",
-      "version": "1.2.1",
-      "author": "yuwang",
-      "url": "https://anonymous.4open.science/api/repo/TV-34DE/file/vod/黄色资源啊啊.js"
     }
   ]
 }

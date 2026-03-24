@@ -1,3 +1,6 @@
+/*
+ *
+ *
 # Quantumult X 重写规则
 # 功能：监控指定API返回的JSON数据，当指定字段满足条件时发送通知。
 # 配置说明：将以下全部内容复制到Quantumult X的“重写”规则部分即可。
@@ -11,6 +14,10 @@
 [mitm]
 hostname = mcs-mimp-web.sf-express.com
 
+
+*
+*
+*/
 
 // 脚本名称：监控顺丰广告列表状态
 // 作者：元宝

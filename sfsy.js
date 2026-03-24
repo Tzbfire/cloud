@@ -8,7 +8,7 @@
 
 [rewrite_local]
 # 匹配目标URL
-^https:\/\/mcs-mimp-web\.sf-express\.com\/mcs-mimp\/integralPlanet\/getCxAdvertiseList url script-response-body https://raw.githubusercontent.com/yourname/yourrepo/main/script.js
+^https:\/\/mcs-mimp-web\.sf-express\.com\/mcs-mimp\/integralPlanet\/getCxAdvertiseList url script-response-body https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/sfsy.js
 # 如果需要MitM解密HTTPS流量，请确保主机名在MitM列表中
 # 主机名：mcs-mimp-web.sf-express.com
 

@@ -4,7 +4,7 @@
 
 [rewrite_local]
 # 关键修改：将 script-request-header 替换为 script-request-body
-^https:\/\/loginxhm\.10010\.com\/mobileService\/login_vcode_member\.htm url script-request-body https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/unicom_extract.js
+^https:\/\/loginxhm\.10010\.com\/mobileService\/login_vcode_member\.htm url script-request-body https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/10010_extract.js
 
 [mitm]
 hostname = loginxhm.10010.com

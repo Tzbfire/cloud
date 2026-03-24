@@ -1,69 +1,70 @@
 /*
  *
  *
+
 [rewrite_local]
 ^https:\/\/loginxhm\.10010\.com\/mobileService\/login_vcode_member\.htm url script-request-header https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/10010_extract.js
 
 [mitm]
 hostname = loginxhm.10010.com
+
 *
 *
 */
 
 // 名称：联通登录参数提取器
-// 功能：从请求体中提取 token_online 和 appId，并按格式输出
-// 作者：元宝
+// 功能：从请求体（request body）中提取 token_online 和 appId
+// 输出格式：token_online#appId
 // 类型：script-request-header
 
 (function() {
     var request = $request;
     
-    // 检查请求方法是否为POST，并且包含请求体
-    if (request.method !== 'POST' || !request.body) {
-        // 如果不是POST请求或没有请求体，则不作处理
+    // 1. 确认是否为POST请求
+    if (request.method !== 'POST') {
+        console.log("联通提取器：当前请求非POST，跳过处理。");
         $done({});
         return;
     }
     
-    // 获取请求体（URL编码格式）
-    var requestBody = request.body;
-    
-    // 辅助函数：从URL编码的字符串中解析参数
-    function parseUrlEncoded(bodyString) {
-        var params = {};
-        if (!bodyString) return params;
-        
-        // 按 & 分割参数
-        var pairs = bodyString.split('&');
-        for (var i = 0; i < pairs.length; i++) {
-            var pair = pairs[i].split('=');
-            if (pair.length === 2) {
-                // 对键和值进行解码（URL解码）
-                var key = decodeURIComponent(pair[0].replace(/\+/g, ' '));
-                var value = decodeURIComponent(pair[1].replace(/\+/g, ' '));
-                params[key] = value;
-            }
-        }
-        return params;
+    // 2. 获取请求体（URL编码格式的字符串）
+    var bodyString = request.body;
+    if (!bodyString || typeof bodyString !== 'string') {
+        console.log("联通提取器：请求体为空或非字符串，跳过处理。");
+        $done({});
+        return;
     }
     
-    // 解析请求体
-    var params = parseUrlEncoded(requestBody);
+    console.log("联通提取器：开始解析请求体。");
     
-    // 提取目标参数
+    // 3. 解析 URL-encoded 请求体
+    var params = {};
+    var pairs = bodyString.split('&');
+    
+    for (var i = 0; i < pairs.length; i++) {
+        var pair = pairs[i].split('=');
+        if (pair.length === 2) {
+            var key = decodeURIComponent(pair[0].replace(/\+/g, ' '));
+            var value = decodeURIComponent(pair[1].replace(/\+/g, ' '));
+            params[key] = value;
+        }
+    }
+    
+    // 4. 提取目标参数
     var tokenOnline = params['token_online'];
     var appId = params['appId'];
     
-    // 只有两个值都找到时才发送通知
+    // 5. 判断并输出
     if (tokenOnline && appId) {
-        var notificationBody = tokenOnline + "#" + appId;
-        $notify("联通参数", "已提取 token_online 和 appId", notificationBody);
-        
-        // （可选）可以存储到持久化存储，供其他脚本使用
-        // $persistentStore.write(notificationBody, "unicom_params");
+        var output = tokenOnline + "#" + appId;
+        $notify("✅ 联通参数已提取", "来自请求体 (request body)", output);
+        console.log("联通提取器：成功提取参数，长度 token_online=" + tokenOnline.length + "， appId=" + appId.length);
     } else {
-        // 可选：如果没有找到两个参数，可以记录日志
-        // console.log("未找到全部参数。token_online: " + (tokenOnline ? "有" : "无") + ", appId: " + (appId ? "有" : "无"));
+        var msg = "提取失败。找到参数：";
+        msg += "token_online=" + (tokenOnline ? "是(" + tokenOnline.length + "字符)" : "否");
+        msg += "， appId=" + (appId ? "是(" + appId.length + "字符)" : "否");
+        $notify("❌ 联通参数提取不完整", "", msg);
+        console.log("联通提取器：" + msg + "，原始参数列表: " + JSON.stringify(Object.keys(params)));
     }
     
     $done({});

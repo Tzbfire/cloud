@@ -33,9 +33,9 @@ hostname = mcs-mimp-web.sf-express.com
     // 只有三个值都找到时才发送通知
     if (sessionId && loginMobile && loginUserId) {
         var notificationBody = 
-            "sessionId:" + sessionId + ";" +
-            "_login_mobile_:" + loginMobile + ";" +
-            "_login_user_id_:" + loginUserId;
+            "sessionId=" + sessionId + ";" +
+            "_login_mobile_=" + loginMobile + ";" +
+            "_login_user_id_=" + loginUserId;
         
         $notify("顺丰参数", "已获取全部参数", notificationBody);
     }

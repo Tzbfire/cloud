@@ -7,7 +7,7 @@ Quantumult X 节点提取脚本 - 全自动Cookie更新+纯文本网页版
 使用：配置rewrite规则指向任意地址，访问即可触发纯文本结果
 
 [rewrite_local]
-^http://qx\.node/sub url script-analyze-echo-response https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/hell.js
+^http://qx\.node/sub url script-analyze-echo-response https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/42web.js
 
 [mitm]
 hostname = qx.node

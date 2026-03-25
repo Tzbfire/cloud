@@ -3,7 +3,7 @@
  *
 [rewrite_local]
 # 52pojie Cookie获取（运行一次后注释掉）
-^https?://www\.52pojie\.cn/ url script-response-body 52pojie_sign.js
+^https?://www\.52pojie\.cn/ url script-response-body https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/52pojie.js
 
 
 [mitm]

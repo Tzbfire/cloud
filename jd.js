@@ -1,180 +1,101 @@
-// Quantumult X 节点订阅脚本
-// 功能：从指定网页抓取节点信息，转换为 Quantumult X 订阅格式
-// 支持协议：vmess, vless, ss, trojan, hy2, hysteria
-// 版本: 2.0
+// 节点信息提取脚本 (Node Extractor)
+// 功能：从特定HTML页面中提取 vmess://, hy2:// 等节点配置，并整理为纯文本列表
+// 触发URL：用户提供的节点分享页面
+// 版本: 1.0
 (async () => {
     try {
-        // 1. 定义要抓取的目标URL
-        // 这里可以设置一个默认URL，也可以通过$request.url获取订阅链接传入的URL
-        let targetUrl = "https://wap.42web.io/";
-        
-        // 2. 如果通过订阅链接传递了URL参数，则使用该URL
-        if ($request && $request.url) {
-            // 从订阅链接中提取目标URL，例如：
-            // 订阅链接格式：https://your-domain.com/subscribe?url=https://wap.42web.io/
-            const urlMatch = $request.url.match(/[?&]url=([^&]+)/i);
-            if (urlMatch && urlMatch[1]) {
-                targetUrl = decodeURIComponent(urlMatch[1]);
-            }
+        // 1. 获取原始的响应体（HTML 内容）
+        let originalBody = $response.body;
+        if (!originalBody) {
+            throw new Error("响应体为空，无法处理");
         }
-        
-        console.log(`🎯 开始抓取节点，目标URL: ${targetUrl}`);
-        
-        // 3. 发送HTTP请求获取页面内容
-        const response = await $http.get({
-            url: targetUrl,
-            headers: {
-                "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Mobile/15E148 Safari/604.1"
-            },
-            timeout: 10000
-        });
-        
-        if (!response.data) {
-            throw new Error("获取页面内容失败，响应为空");
-        }
-        
-        console.log(`✅ 成功获取页面，长度: ${response.data.length} 字符`);
-        
-        // 4. 从HTML中提取节点链接
-        const htmlContent = response.data;
-        
-        // 定义更全面的节点协议匹配模式
-        const nodePatterns = [
-            /(vmess:\/\/[^<>\s"']+)/gi,      // vmess协议
-            /(vless:\/\/[^<>\s"']+)/gi,      // vless协议
-            /(ss:\/\/[^<>\s"']+)/gi,         // shadowsocks协议
-            /(ssr:\/\/[^<>\s"']+)/gi,        // shadowsocksR协议
-            /(trojan:\/\/[^<>\s"']+)/gi,     // trojan协议
-            /(hy2:\/\/[^<>\s"']+)/gi,        // hysteria2协议
-            /(hysteria:\/\/[^<>\s"']+)/gi,   // hysteria协议
-            /(tuic:\/\/[^<>\s"']+)/gi,       // tuic协议
-            /(wg:\/\/[^<>\s"']+)/gi,         // wireguard协议
-            /(vpn:\/\/[^<>\s"']+)/gi,        // 通用vpn协议
-            /(proxy:\/\/[^<>\s"']+)/gi       // 通用proxy协议
-        ];
-        
-        let allNodes = [];
-        
-        // 使用所有模式匹配节点
-        for (const pattern of nodePatterns) {
-            const matches = htmlContent.match(pattern);
-            if (matches) {
-                allNodes = allNodes.concat(matches);
-            }
-        }
-        
-        // 5. 处理匹配到的节点
-        if (allNodes.length === 0) {
-            throw new Error("未在页面中找到任何节点配置");
-        }
-        
-        // 去重并解码HTML实体
-        let uniqueNodes = [...new Set(allNodes)].map(node => {
-            return node
-                .replace(/&amp;/g, '&')
-                .replace(/&lt;/g, '<')
-                .replace(/&gt;/g, '>')
-                .replace(/&quot;/g, '"')
-                .replace(/&#(\d+);/g, (match, dec) => String.fromCharCode(dec))
-                .replace(/&#x([0-9a-f]+);/gi, (match, hex) => String.fromCharCode(parseInt(hex, 16)))
-                .trim();
-        }).filter(node => node.length > 10); // 过滤掉过短的无效节点
-        
-        console.log(`✅ 成功提取 ${uniqueNodes.length} 个节点`);
-        
-        // 6. 转换为Quantumult X订阅格式
-        // Quantumult X订阅文件格式：每行一个节点链接
-        let subscriptionContent = uniqueNodes.join('\n');
-        
-        // 7. 添加订阅头部信息（可选）
-        const subscriptionHeader = `# Quantumult X 订阅生成
-# 生成时间: ${new Date().toLocaleString('zh-CN')}
-# 源地址: ${targetUrl}
-# 节点数量: ${uniqueNodes.length}
-# 更新时间: ${new Date().toISOString().split('T')[0]}
 
-`;
+        // 2. 使用正则表达式匹配所有节点配置链接
+        // 匹配模式：以 vmess://, vless://, ss://, trojan://, hy2://, hysteria:// 等常见协议开头
+        // 直到遇到引号、空格或HTML标签结束
+        const nodePattern = /(vmess:\/\/[^<>\s"']+)|(vless:\/\/[^<>\s"']+)|(ss:\/\/[^<>\s"']+)|(trojan:\/\/[^<>\s"']+)|(hy2:\/\/[^<>\s"']+)|(hysteria:\/\/[^<>\s"']+)/gi;
         
-        subscriptionContent = subscriptionHeader + subscriptionContent;
-        
-        // 8. 保存到持久化存储（可选，用于缓存）
-        $persistentStore.write(subscriptionContent, "last_subscription_content");
-        $persistentStore.write(Date.now().toString(), "last_update_time");
-        
-        // 9. 发送通知
-        $notification.post(
-            "节点订阅更新成功",
-            `从 ${new URL(targetUrl).hostname} 获取`,
-            `共提取 ${uniqueNodes.length} 个节点\n点击查看详情`,
-            {
-                "open-url": "quantumult-x://main?action=node"
+        let matches = originalBody.match(nodePattern);
+        let extractedNodes = [];
+
+        // 3. 处理匹配结果
+        if (matches && matches.length > 0) {
+            // 去重，同一个链接可能出现在页面的不同位置
+            let uniqueMatches = [...new Set(matches)];
+            
+            for (let node of uniqueMatches) {
+                // 解码可能存在的HTML实体（如 & 被转义为 &amp;）
+                let decodedNode = node.replace(/&amp;/g, '&')
+                                      .replace(/&lt;/g, '<')
+                                      .replace(/&gt;/g, '>')
+                                      .replace(/&quot;/g, '"')
+                                      .replace(/&#39;/g, "'");
+                extractedNodes.push(decodedNode);
             }
+            
+            console.log(`✅ 成功提取 ${extractedNodes.length} 个节点配置`);
+        } else {
+            console.log("⚠️ 未在页面中找到节点配置链接");
+        }
+
+        // 4. 构建最终输出
+        let finalOutput = '';
+        if (extractedNodes.length > 0) {
+            // 方案A：将节点列表拼接为纯文本，一行一个
+            finalOutput = `# 节点提取结果 (共 ${extractedNodes.length} 个)\n` +
+                          `# 提取时间: ${new Date().toLocaleString('zh-CN')}\n` +
+                          `# 原始URL: ${$request?.url || '未知'}\n` +
+                          `\n` +
+                          extractedNodes.join('\n') + '\n';
+            
+            // 可选：同时发送系统通知，告知提取结果
+            $notification.post(
+                "节点信息提取完成",
+                `从页面中提取了 ${extractedNodes.length} 个节点`,
+                `点击通知可复制所有链接`,
+                {
+                    // 点击通知自动复制所有节点文本到剪贴板
+                    "url": `quantumult-x://copy?text=${encodeURIComponent(finalOutput)}`
+                }
+            );
+        } else {
+            // 没有找到节点，返回提示信息
+            finalOutput = "# 未在页面中发现任何节点配置信息\n" +
+                          "# 请确认页面包含 vmess://, vless://, ss://, trojan://, hy2://, hysteria:// 等协议的链接";
+            
+            $notification.post(
+                "节点提取结果",
+                "未找到节点配置",
+                "页面中可能不包含标准格式的节点链接"
+            );
+        }
+
+        // 5. 可选：将提取结果保存到持久化存储，供其他脚本使用
+        if (extractedNodes.length > 0) {
+            $persistentStore.write(finalOutput, "extracted_nodes_list");
+        }
+
+        // 6. 替换原响应体，返回纯文本结果
+        $done({
+            body: finalOutput,
+            headers: {
+                ...$response.headers,
+                'Content-Type': 'text/plain; charset=utf-8' // 修改Content-Type为纯文本
+            }
+        });
+
+    } catch (error) {
+        // 错误处理
+        console.log(`❌ 脚本执行出错: ${error.message}`);
+        console.log(`📋 错误堆栈: ${error.stack}`);
+        
+        $notification.post(
+            "节点提取脚本错误",
+            "处理过程中发生异常",
+            `错误: ${error.message}`
         );
         
-        // 10. 输出调试信息
-        console.log("📋 提取的节点列表:");
-        uniqueNodes.forEach((node, index) => {
-            console.log(`${index + 1}. ${node.substring(0, 80)}${node.length > 80 ? '...' : ''}`);
-        });
-        
-        // 11. 返回订阅内容
-        $done({
-            response: {
-                status: 200,
-                headers: {
-                    'Content-Type': 'text/plain; charset=utf-8',
-                    'Cache-Control': 'no-store, no-cache, must-revalidate',
-                    'Pragma': 'no-cache',
-                    'Expires': '0',
-                    'Subscription-Userinfo': `upload=0; download=0; total=${uniqueNodes.length}; expire=${Math.floor(Date.now()/1000) + 86400}`,
-                    'Profile-Update-Interval': '24',
-                    'Profile-Title': `节点订阅 (${uniqueNodes.length}个)`
-                },
-                body: subscriptionContent
-            }
-        });
-        
-    } catch (error) {
-        console.log(`❌ 脚本执行出错: ${error.message}`);
-        
-        // 从缓存中读取上次成功的订阅（如果有）
-        const cachedContent = $persistentStore.read("last_subscription_content");
-        
-        if (cachedContent) {
-            console.log("⚠️ 使用缓存的订阅内容");
-            $notification.post(
-                "节点订阅更新失败，使用缓存",
-                "网络错误或页面结构变化",
-                "将返回上次成功的订阅内容"
-            );
-            
-            $done({
-                response: {
-                    status: 200,
-                    headers: {
-                        'Content-Type': 'text/plain; charset=utf-8',
-                        'Cache-Control': 'no-store, no-cache, must-revalidate',
-                        'Pragma': 'no-cache'
-                    },
-                    body: cachedContent
-                }
-            });
-        } else {
-            $notification.post(
-                "节点订阅更新失败",
-                "无法获取节点信息",
-                `错误: ${error.message}`
-            );
-            
-            $done({
-                response: {
-                    status: 500,
-                    headers: {
-                        'Content-Type': 'text/plain; charset=utf-8'
-                    },
-                    body: `# 订阅更新失败\n错误信息: ${error.message}\n请检查网络连接或页面结构`
-                }
-            });
-        }
+        // 出错时返回原响应，不做修改
+        $done($response);
     }
 })();

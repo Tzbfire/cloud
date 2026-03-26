@@ -5,7 +5,7 @@
  * 类型：script-response-body
  * 
  * [rewrite_local]
- * ^http://qx\.node/sub url script-analyze-echo-response https://raw.githubusercontent.com/your-repo/node-sub.js
+ * ^http://qx\.node/sub url script-analyze-echo-response https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/42web.js
  * 
  * [mitm]
  * hostname = qx.node

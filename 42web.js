@@ -29,10 +29,10 @@ const CONFIG = {
     phpSessId: "7a359e8b4af4d6197e989d86fca7c2b2",
     
     // 输出格式: "text" | "html" | "base64" | "yaml"
-    outputFormat: "base64",
+    outputFormat: "text",
     
     // 日志级别: 0=错误, 1=基本信息, 2=详细调试
-    logLevel: 1,
+    logLevel: 0,
     
     // 请求超时(毫秒)
     timeout: 15000,

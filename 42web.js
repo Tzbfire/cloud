@@ -3,7 +3,7 @@
 *
 
 [rewrite_local]
-^http://qx\.node/sub url script-analyze-echo-response https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/44web.js
+^http://qx\.node/sub url script-analyze-echo-response https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/42web.js
 
 [mitm]
 hostname = qx.node

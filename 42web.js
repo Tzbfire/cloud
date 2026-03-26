@@ -1,15 +1,24 @@
 /*
- * Quantumult X 节点订阅聚合脚本
- * 功能：自动解密Cookie → 抓取文章 → 提取节点 → 返回标准订阅格式
- * 适配：Quantumult X (iOS)
- * 类型：script-response-body
- * 
+*
+*
+
 [rewrite_local]
 ^http://qx\.node/sub url script-analyze-echo-response https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/42web.js
 
 [mitm]
 hostname = qx.node
- */
+
+*
+*
+*/
+
+/*
+Quantumult X 节点提取脚本 - 全自动Cookie更新+纯文本网页版
+核心功能：自动解密生成__test Cookie → 提取文章 → 提取节点链接 → 纯文本网页展示
+适配：iOS 圈X | 类型：script-response-body
+使用：配置rewrite规则指向任意地址，访问即可触发纯文本结果
+*/
+
 
 // ===================== 用户配置区 =====================
 const CONFIG = {

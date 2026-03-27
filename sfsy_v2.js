@@ -28,7 +28,7 @@ if (cookie) {
         $.notify("顺丰参数", "已获取全部参数", msg);
         
         //注释下方行🟰关闭日志输出
-        console.log(`[顺丰参数] 获取成功: ${msg}`);
+        //console.log(`[顺丰参数] 获取成功: ${msg}`);
     }
 }
 

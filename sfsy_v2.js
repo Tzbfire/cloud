@@ -26,6 +26,8 @@ if (cookie) {
     if (sessionId && loginMobile && loginUserId) {
         const msg = `sessionId=${sessionId};_login_mobile_=${loginMobile};_login_user_id_=${loginUserId}`;
         $.notify("顺丰参数", "已获取全部参数", msg);
+        
+        //注释下方行🟰关闭日志输出
         console.log(`[顺丰参数] 获取成功: ${msg}`);
     }
 }

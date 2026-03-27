@@ -1,10 +1,6 @@
 /*
 *
 *
-https://kelee\.one/Tool/Loon/.* url script-request-header https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/rewrite_Accept.js
-https://ddgksf2013\.top/scripts/.* url script-request-header https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/rewrite_Accept.js
-
-
 [rewrite_local]
 ^https://(kelee\.one/Tool/Loon/|ddgksf2013\.top/scripts/).* url script-request-header https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/rewrite_Accept.js
 

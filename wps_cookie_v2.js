@@ -21,7 +21,8 @@ const cookie = headers['Cookie'] || headers['cookie'];
 if (cookie) {
     // 成功获取 Cookie 时发送通知
     $.notify("🍪 WPS Cookie 已获取", "", cookie);
-    console.log(`[WPS提取] 成功获取 Cookie, 长度: ${cookie.length}`);
+    //关闭日志输出
+    //console.log(`[WPS提取] 成功获取 Cookie, 长度: ${cookie.length}`);
     
     // 如果你需要持久化存储以便其他脚本调用，可以取消下面这行的注释：
     // $persistentStore.write(cookie, "wps_activity_cookie");

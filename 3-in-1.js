@@ -3,13 +3,13 @@
 [说明]：本脚本用于自动获取三个 App 的登录凭证或任务参数。 
 
 [rewrite_local]
-# 1. 顺丰：匹配广告/会员列表接口，获取 Cookie 中的 sessionId 等
+1. 顺丰：匹配广告/会员列表接口，获取 Cookie 中的 sessionId 等
 ^https:\/\/mcs-mimp-web\.sf-express\.com\/mcs-mimp\/integralPlanet\/getCxAdvertiseList url script-request-header https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/3-in-1.js
 
-# 2. 联通：匹配短信登录接口，从请求体 (Body) 中获取 token 和 appId
+2. 联通：匹配短信登录接口，从请求体 (Body) 中获取 token 和 appId
 ^https:\/\/loginxhm\.10010\.com\/mobileService\/login_vcode_member\.htm url script-request-body https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/3-in-1.js
 
-# 3. WPS：匹配组件动作接口，获取 Cookie
+3. WPS：匹配组件动作接口，获取 Cookie
 ^https:\/\/personal-act\.wps\.cn\/activity-rubik\/activity\/component_action url script-request-header https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/3-in-1.js
 
 [mitm]

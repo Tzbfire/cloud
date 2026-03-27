@@ -1,7 +1,6 @@
 /*
-* 三合一参数提取脚本 (顺丰 + 联通 + WPS)
-* * [说明]：本脚本用于自动获取三个 App 的登录凭证或任务参数。
-* 
+三合一参数提取脚本 (顺丰 + 联通 + WPS)
+[说明]：本脚本用于自动获取三个 App 的登录凭证或任务参数。 
 
 [rewrite_local]
 # 1. 顺丰：匹配广告/会员列表接口，获取 Cookie 中的 sessionId 等
@@ -16,8 +15,6 @@
 [mitm]
 hostname = mcs-mimp-web.sf-express.com, loginxhm.10010.com, personal-act.wps.cn
 
-*
-*
 */
 
 // --- 1. 初始化每个 App 的独立助手实例 ---

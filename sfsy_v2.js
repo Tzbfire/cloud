@@ -1,10 +1,14 @@
 /*
- * 顺丰参数抓取 - 格式化标准版
- * * [rewrite_local]
- * ^https:\/\/mcs-mimp-web\.sf-express\.com\/mcs-mimp\/integralPlanet\/getCxAdvertiseList url script-request-header https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/sfsy_v2.js
- * * [mitm]
- * hostname = mcs-mimp-web.sf-express.com
- */
+ *
+ *
+[rewrite_local]
+^https:\/\/mcs-mimp-web\.sf-express\.com\/mcs-mimp\/integralPlanet\/getCxAdvertiseList url script-request-header https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/sfsy.js
+
+[mitm]
+hostname = mcs-mimp-web.sf-express.com
+*
+*
+*/
 
 const $ = new Env("顺丰参数");
 

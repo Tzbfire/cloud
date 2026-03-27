@@ -17,8 +17,16 @@ hostname = kelee.one, ddgksf2013.top
 
 (function() {
   let headers = $request.headers;
-  headers['User-Agent'] = 'Quantumult%20X/1.5.5 (iPhone14,3; iOS 16.3.1)';
-  headers['X-Requested-With'] = 'Quantumult X';
-  $done({ headers: headers });
-})();
+  let url = $request.url;
 
+  if (url.indexOf('kelee.one/Tool/Loon/') !== -1) {
+    headers['User-Agent'] = 'Loon/936 CFNetwork/1404.0.5 Darwin/22.3.0';
+  }
+
+  if (url.indexOf('ddgksf2013.top/scripts/') !== -1) {
+    headers['User-Agent'] = 'Quantumult%20X/1.5.5 (iPhone14,3; iOS 16.3.1)';
+    headers['X-Requested-With'] = 'Quantumult X';
+  }
+
+  $done({ headers });
+})();

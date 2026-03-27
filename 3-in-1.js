@@ -124,3 +124,70 @@ function Env(name) {
         done: (obj = {}) => $done(obj)
     };
 }
+
+
+
+
+
+
+
+
+/*
+*
+*
+
+/ **
+ * 【5. 万能兼容环境 (Env 模具) - 升级版】
+ * 支持软件：Quantumult X, Surge, Loon, Shadowrocket, Stash
+ * /
+function Env(name) {
+    return {
+        name: name,
+        // 判断是否为 Quantumult X
+        isQX: typeof $task !== "undefined",
+        // 判断是否为 Loon
+        isLoon: typeof $loon !== "undefined",
+        // 判断是否为 Surge (排除掉 Stash)
+        isSurge: typeof $network !== "undefined" && typeof $script !== "undefined" && (typeof $environment === "undefined" || !$environment["stash-version"]),
+        // 判断是否为 Stash
+        isStash: typeof $environment !== "undefined" && $environment["stash-version"],
+        // 判断是否为 Shadowrocket (小火箭)
+        isRocket: typeof $rocket !== "undefined",
+
+        / **
+         * 统一通知函数
+         * 会自动根据当前软件环境调用正确的弹窗指令
+         * /
+        notify: function(title, subtitle, content) {
+            const finalTitle = `[${this.name}] ${title}`;
+            
+            // 1. 如果是 QX，使用 $notify
+            if (this.isQX) {
+                $notify(finalTitle, subtitle, content);
+            } 
+            // 2. 如果是 Surge, Loon, Stash, Shadowrocket，使用 $notification.post
+            else if (this.isSurge || this.isLoon || this.isStash || this.isRocket) {
+                $notification.post(finalTitle, subtitle, content);
+            }
+            // 3. 兜底策略：如果是其他环境，直接打印到日志
+            else {
+                console.log(`${finalTitle}\n${subtitle}\n${content}`);
+            }
+        },
+
+        / **
+         * 统一结束函数
+         * 确保脚本运行完后能正常释放资源，防止 App 卡死
+         * /
+        done: (obj = {}) => {
+            if (typeof $done !== "undefined") {
+                $done(obj);
+            }
+        }
+    };
+}
+
+
+
+*\
+

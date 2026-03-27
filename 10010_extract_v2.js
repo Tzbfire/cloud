@@ -33,7 +33,8 @@ if (!body || typeof body !== 'string') {
         
         const result = `${d_token}#${d_appId}`;
         $.notify("✅ 联通参数提取成功", "", result);
-        console.log(`[联通提取] 成功: ${result}`);
+        //关闭日志输出
+        //console.log(`[联通提取] 成功: ${result}`);
     } else {
         console.log("[联通提取] 参数不完整，跳过通知");
     }

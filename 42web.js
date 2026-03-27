@@ -1,18 +1,4 @@
 /*
-*
-*
-
-[rewrite_local]
-^http://qx\.node/sub url script-analyze-echo-response https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/42web.js
-
-[mitm]
-hostname = qx.node
-
-*
-*
-*/
-
-/*
 Quantumult X 节点提取脚本 - 全自动Cookie更新+纯文本网页版
 核心功能：自动解密生成__test Cookie → 提取文章 → 提取节点链接 → 纯文本网页展示
 适配：iOS 圈X | 类型：script-response-body

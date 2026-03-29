@@ -9,18 +9,19 @@ hostname = m.client.10010.com
 */
 
 
-const $ = new Env("联通白名单修正");
+const $ = new Env("联通白名单强制修正");
 
 let body = $response.body;
 
 if (body) {
-    // 1. 匹配 "respCode" 后面跟着冒号，再跟着 "0211"
-    let newBody = body.replace(/"respCode"\s*:\s*"0211"/g, '"respCode":"0000"');
+    // 1. 匹配 "respCode" 后面跟着冒号，以及双引号内的【任何数字】
+    // \d+ 表示匹配一个或多个数字
+    let newBody = body.replace(/"respCode"\s*:\s*"\d+"/g, '"respCode":"0000"');
     
-    // 2. 把那个“受邀限制”的提示语也改掉
-    //newBody = newBody.replace(/"respMsg"\s*:\s*"[^"]*"/g, '"respMsg":"脚本已解除限制"');
+    // 2. 匹配 "respMsg" 后面跟着的内容，统一改为成功提示
+    //newBody = newBody.replace(/"respMsg"\s*:\s*"[^"]*"/g, '"respMsg":"服务已激活"');
 
-    $.log(`[联通脚本] 正则替换完成`);
+    $.log(`[联通脚本] 强制重写完成：所有respCode响应码均已指向 0000`);
     $.done({ body: newBody });
 } else {
     $.done({});

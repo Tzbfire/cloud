@@ -1,13 +1,13 @@
 /*
 [rewrite_local]
 # 只精确匹配 https://api.m.jd.com/ 这个绝对地址（不匹配任何子路径、查询参数或其他）
-^https:\/\/api\.m\.jd\.com\/$ url script-request-header https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/jd7_cookie.js
+^https:\/\/api\.m\.jd\.com\/$ url script-request-header https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/jd_cookie.js
 [mitm]
 hostname = api.m.jd.com
 */
 
-/**
- * 参照 wps_cookie_v2.js 通用框架改写 - 京东 API Cookie提取（精确匹配版）
+/*
+ * 京东 API Cookie提取（精确匹配版）
  */
 const $ = new Env("京东API Cookie");
 
@@ -19,8 +19,8 @@ if (cookie) {
     $.notify("京东API Cookie 已获取 ✅", "", `Cookie长度: ${cookie.length}\n\n${cookie}`);
     
     // 关闭日志输出（仅在控制台保留关键信息）
-    console.log(`[JD API提取] 成功获取 Cookie, 长度: ${cookie.length}`);
-    console.log(`[JD API提取] 获取成功: ${cookie}`);
+    //console.log(`[JD Cookie提取] 成功获取 Cookie✅✅, 长度: ${cookie.length}`);
+    console.log(`[JD Cookie提取] 获取成功✅✅✅✅✅: ${cookie}`);
     
     // 如果你需要持久化存储以便其他脚本调用，可以取消下面这行的注释：
     // $persistentStore.write(cookie, "jd_api_cookie");

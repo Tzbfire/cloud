@@ -3,7 +3,7 @@
 # 只精确匹配 https://api.m.jd.com/ 这个绝对地址（不匹配任何子路径、查询参数或其他）
 ^https:\/\/api\.m\.jd\.com\/$ url script-request-header https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/jd7_cookie.js
 [mitm]
-hostname = api.m.jd.com*
+hostname = api.m.jd.com
 */
 
 /**

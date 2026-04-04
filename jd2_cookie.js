@@ -5,7 +5,7 @@
 ^https:\/\/api\.m\.jd\.com\/$ url script-request-header https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/jd_cookie.js
 
 [mitm]
-hostname = api.m.jd.com*/
+hostname = api.m.jd.com
 
 */
 

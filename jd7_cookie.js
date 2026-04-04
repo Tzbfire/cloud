@@ -1,9 +1,9 @@
 /*
 [rewrite_local]
 # 只精确匹配 https://api.m.jd.com/ 这个绝对地址（不匹配任何子路径、查询参数或其他）
-^https:\/\/api\.m\.jd\.com\/$ url script-request-header https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/jd6_cookie.js
+^https:\/\/api\.m\.jd\.com\/$ url script-request-header https://raw.githubusercontent.com/Tzbfire/cloud/refs/heads/main/jd7_cookie.js
 [mitm]
-hostname = api.m.jd.com
+hostname = api.m.jd.com*
 */
 
 /**
@@ -16,7 +16,7 @@ const cookie = headers['Cookie'] || headers['cookie'] || headers['cookie2']; // 
 
 if (cookie) {
     // 成功获取 Cookie 时发送通知
-    $.notify("京东API Cookie 已获取 ✅", "", `Cookie长度: ${cookie.length}\n\n${cookie`);
+    $.notify("京东API Cookie 已获取 ✅", "", `Cookie长度: ${cookie.length}\n\n${cookie}`);
     
     // 关闭日志输出（仅在控制台保留关键信息）
     console.log(`[JD API提取] 成功获取 Cookie, 长度: ${cookie.length}`);

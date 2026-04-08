@@ -16,7 +16,7 @@ const cookie = headers['Cookie'] || headers['cookie'] || headers['cookie2']; // 
 
 if (cookie) {
     // 成功获取 Cookie 时发送通知
-    $.notify("京东API Cookie 已获取 ✅", "", `Cookie长度: ${cookie.length}\n\n${cookie}`);
+    $.notify("京东API Cookie 已获取 ✅", "", `${cookie}`);
     
     // 关闭日志输出（仅在控制台保留关键信息）
     //console.log(`[JD Cookie提取] 成功获取 Cookie✅✅, 长度: ${cookie.length}`);
